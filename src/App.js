@@ -1,56 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./App.css";
+import {
+  getProductsAsync,
+  productSelector,
+  removeProducts,
+} from "./features/ProductSlice";
 
 function App() {
+  const dispatch = useDispatch();
+
+  const { products } = useSelector(productSelector);
+
+  useEffect(() => {
+    dispatch(getProductsAsync());
+  }, [dispatch]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
+      <h1 style={{ textAlign: "center" }}>Fake Api Products</h1>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          padding: "5px",
+        }}
+      >
+        {products.map((product, key) => (
+          <div
+            key={key}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              width: "300px",
+              margin: "10px",
+              border: " solid 4px",
+            }}
           >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+            <p>{product.id}</p>
+            <img style={{ width: "100px" }} src={product.image} alt="" />
+            <p>{product.title}</p>
+            <div>
+              <button>Edit</button>
+              <button
+                onClick={() => {
+                  dispatch(removeProducts(key));
+                }}
+              >
+                remove
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
