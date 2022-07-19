@@ -4,6 +4,7 @@ import "./App.css";
 import {
   getProductsAsync,
   productSelector,
+  removeAllProducts,
   removeProducts,
 } from "./features/ProductSlice";
 
@@ -55,6 +56,7 @@ function App() {
           </div>
         ))}
       </div>
+      <button onClick={() => dispatch(removeAllProducts())}>Clear All</button>
     </div>
   );
 }

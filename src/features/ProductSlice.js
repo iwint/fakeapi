@@ -18,6 +18,9 @@ const ProductSlice = createSlice({
         return i !== action.payload;
       });
     },
+    removeAllProducts(state) {
+      state.products = [];
+    },
   },
 });
 
@@ -31,7 +34,8 @@ export const getProductsAsync = (products) => async (dispatch) => {
   }
 };
 
-export const { getProducts, removeProducts } = ProductSlice.actions;
+export const { getProducts, removeProducts, removeAllProducts } =
+  ProductSlice.actions;
 export const productSelector = (state) => state.products;
 
 export default ProductSlice.reducer;
